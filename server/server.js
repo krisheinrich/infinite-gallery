@@ -14,13 +14,14 @@ app.get("/api/search", async (req, res) => {
   try {
     const { count = 10 } = req.query;
     const baseUrl = 'https://api.unsplash.com/photos/random/';
-    const response = await fetch(
-      `${baseUrl}?client_id=${process.env.UNSPLASH_API_KEY}&count=${count}`,
-    );
+    const apiUrl = `${baseUrl}?client_id=${process.env.UNSPLASH_API_KEY}&count=${count}`;
+
+    const response = await fetch(apiUrl);
     const json = await response.json();
 
     return res.json(json);
   } catch (err) {
+    console.error(err.message);
     return res.status(500).json({
       success: false,
       message: err.message,
